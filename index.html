@@ -12,10 +12,10 @@
   h1 { font-size:1.1rem; }
   button { background:#1e293b; color:#e2e8f0; border:none; padding:8px 14px; border-radius:999px; cursor:pointer; }
   body.light button { background:#e2e8f0; color:#0f172a; }
-  #map-container { position:relative; max-width:700px; margin:0 auto; padding:20px; }
-  #map-img { width:100%; height:auto; display:block; border-radius:8px; background:#1e293b; min-height:400px; }
-  .state-area { position:absolute; cursor:pointer; background:transparent; border:2px solid transparent; border-radius:4px; }
-  .state-area:hover { background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.4); }
+  #map-container { position:relative; max-width:500px; margin:40px auto; height:600px; background:#1e293b; border-radius:12px; }
+  body.light #map-container { background:#e2e8f0; }
+  .state { position:absolute; cursor:pointer; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; color:#fff; transition:transform .1s; }
+  .state:hover { transform:scale(1.05); }
   #popup { display:none; position:fixed; background:rgba(15,23,42,.95); padding:10px; border-radius:12px; z-index:100; min-width:200px; }
   body.light #popup { background:rgba(255,255,255,.97); }
   #popup .btn { display:block; width:100%; text-align:left; margin:4px 0; padding:8px; border-radius:8px; }
@@ -33,34 +33,33 @@
   <button id="darkBtn">Dark / Light</button>
 </header>
 <div id="map-container">
-  <img id="map-img" src="https://raw.githubusercontent.com/djaiss/mapsicon/master/all/br/1024.png" alt="Mapa do Brasil" onerror="this.src='https://flagcdn.com/w640/br.png'">
-  <div class="state-area" data-name="AM" style="left:8%; top:18%; width:22%; height:28%;"></div>
-  <div class="state-area" data-name="PA" style="left:28%; top:12%; width:22%; height:22%;"></div>
-  <div class="state-area" data-name="MT" style="left:22%; top:38%; width:20%; height:22%;"></div>
-  <div class="state-area" data-name="BA" style="left:52%; top:32%; width:18%; height:28%;"></div>
-  <div class="state-area" data-name="MG" style="left:48%; top:48%; width:16%; height:20%;"></div>
-  <div class="state-area" data-name="SP" style="left:46%; top:62%; width:14%; height:16%;"></div>
-  <div class="state-area" data-name="RS" style="left:38%; top:82%; width:14%; height:14%;"></div>
-  <div class="state-area" data-name="RJ" style="left:56%; top:58%; width:8%; height:10%;"></div>
-  <div class="state-area" data-name="PR" style="left:42%; top:68%; width:12%; height:10%;"></div>
-  <div class="state-area" data-name="SC" style="left:40%; top:76%; width:10%; height:8%;"></div>
-  <div class="state-area" data-name="GO" style="left:40%; top:50%; width:12%; height:12%;"></div>
-  <div class="state-area" data-name="MS" style="left:30%; top:55%; width:12%; height:14%;"></div>
-  <div class="state-area" data-name="TO" style="left:42%; top:28%; width:10%; height:16%;"></div>
-  <div class="state-area" data-name="MA" style="left:48%; top:16%; width:12%; height:14%;"></div>
-  <div class="state-area" data-name="PI" style="left:55%; top:22%; width:10%; height:14%;"></div>
-  <div class="state-area" data-name="CE" style="left:62%; top:18%; width:8%; height:10%;"></div>
-  <div class="state-area" data-name="PE" style="left:64%; top:28%; width:10%; height:10%;"></div>
-  <div class="state-area" data-name="AC" style="left:4%; top:38%; width:10%; height:12%;"></div>
-  <div class="state-area" data-name="RO" style="left:12%; top:42%; width:10%; height:10%;"></div>
-  <div class="state-area" data-name="RR" style="left:18%; top:6%; width:8%; height:10%;"></div>
-  <div class="state-area" data-name="AP" style="left:32%; top:6%; width:8%; height:10%;"></div>
-  <div class="state-area" data-name="RN" style="left:68%; top:20%; width:6%; height:8%;"></div>
-  <div class="state-area" data-name="PB" style="left:66%; top:26%; width:6%; height:6%;"></div>
-  <div class="state-area" data-name="AL" style="left:66%; top:32%; width:6%; height:6%;"></div>
-  <div class="state-area" data-name="SE" style="left:64%; top:36%; width:6%; height:6%;"></div>
-  <div class="state-area" data-name="ES" style="left:58%; top:54%; width:6%; height:8%;"></div>
-  <div class="state-area" data-name="DF" style="left:48%; top:52%; width:4%; height:4%;"></div>
+  <div class="state" data-name="AM" style="left:10%; top:15%; width:18%; height:22%; background:#16a34a;">AM</div>
+  <div class="state" data-name="PA" style="left:28%; top:10%; width:18%; height:18%; background:#15803d;">PA</div>
+  <div class="state" data-name="MT" style="left:20%; top:35%; width:16%; height:18%; background:#166534;">MT</div>
+  <div class="state" data-name="BA" style="left:48%; top:28%; width:14%; height:22%; background:#22c55e;">BA</div>
+  <div class="state" data-name="MG" style="left:45%; top:48%; width:12%; height:16%; background:#4ade80;">MG</div>
+  <div class="state" data-name="SP" style="left:42%; top:60%; width:12%; height:12%; background:#86efac;">SP</div>
+  <div class="state" data-name="RS" style="left:36%; top:78%; width:12%; height:12%; background:#bbf7d0; color:#0f172a;">RS</div>
+  <div class="state" data-name="RJ" style="left:52%; top:56%; width:8%; height:8%; background:#14532d;">RJ</div>
+  <div class="state" data-name="PR" style="left:38%; top:66%; width:10%; height:8%; background:#22c55e;">PR</div>
+  <div class="state" data-name="SC" style="left:36%; top:72%; width:8%; height:6%; background:#16a34a;">SC</div>
+  <div class="state" data-name="GO" style="left:38%; top:46%; width:10%; height:10%; background:#15803d;">GO</div>
+  <div class="state" data-name="MS" style="left:28%; top:52%; width:10%; height:10%; background:#166534;">MS</div>
+  <div class="state" data-name="TO" style="left:40%; top:26%; width:8%; height:12%; background:#4ade80;">TO</div>
+  <div class="state" data-name="MA" style="left:46%; top:14%; width:10%; height:12%; background:#22c55e;">MA</div>
+  <div class="state" data-name="PI" style="left:52%; top:20%; width:8%; height:10%; background:#16a34a;">PI</div>
+  <div class="state" data-name="CE" style="left:58%; top:16%; width:6%; height:8%; background:#15803d;">CE</div>
+  <div class="state" data-name="PE" style="left:60%; top:26%; width:8%; height:8%; background:#166534;">PE</div>
+  <div class="state" data-name="AC" style="left:4%; top:36%; width:8%; height:8%; background:#86efac; color:#0f172a;">AC</div>
+  <div class="state" data-name="RO" style="left:10%; top:40%; width:8%; height:8%; background:#bbf7d0; color:#0f172a;">RO</div>
+  <div class="state" data-name="RR" style="left:16%; top:4%; width:6%; height:8%; background:#4ade80;">RR</div>
+  <div class="state" data-name="AP" style="left:30%; top:4%; width:6%; height:8%; background:#22c55e;">AP</div>
+  <div class="state" data-name="RN" style="left:64%; top:18%; width:5%; height:6%; background:#16a34a;">RN</div>
+  <div class="state" data-name="PB" style="left:62%; top:24%; width:5%; height:5%; background:#15803d;">PB</div>
+  <div class="state" data-name="AL" style="left:62%; top:30%; width:5%; height:5%; background:#166534;">AL</div>
+  <div class="state" data-name="SE" style="left:60%; top:34%; width:5%; height:5%; background:#14532d;">SE</div>
+  <div class="state" data-name="ES" style="left:54%; top:52%; width:5%; height:6%; background:#22c55e;">ES</div>
+  <div class="state" data-name="DF" style="left:46%; top:50%; width:4%; height:4%; background:#fbbf24; color:#0f172a;">DF</div>
 </div>
 <div id="popup">
   <div id="popup-title" style="font-size:12px;opacity:.7;margin-bottom:6px"></div>
@@ -80,10 +79,10 @@
 <script>
 const links = JSON.parse(localStorage.getItem('bgd-links')||'{}');
 const popup = document.getElementById('popup');
-document.querySelectorAll('.state-area').forEach(area => {
-  area.addEventListener('click', e => {
+document.querySelectorAll('.state').forEach(s => {
+  s.addEventListener('click', e => {
     e.stopPropagation();
-    document.getElementById('popup-title').textContent = area.dataset.name;
+    document.getElementById('popup-title').textContent = s.dataset.name;
     popup.style.display = 'block';
     popup.style.left = Math.min(e.clientX, innerWidth-220) + 'px';
     popup.style.top = Math.min(e.clientY, innerHeight-140) + 'px';
