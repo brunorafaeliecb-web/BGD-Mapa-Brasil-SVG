@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>BGD — Mapa do Brasil</title>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body { background:#0f172a; color:#e2e8f0; font-family:system-ui,sans-serif; min-height:100vh; }
@@ -12,10 +13,9 @@ header { padding:16px 20px; display:flex; justify-content:space-between; align-i
 h1 { font-size:1.1rem; }
 button { background:#1e293b; color:#e2e8f0; border:none; padding:8px 14px; border-radius:999px; cursor:pointer; }
 body.light button { background:#e2e8f0; color:#0f172a; }
-#map-wrap { max-width:800px; margin:0 auto; padding:20px; }
-svg { width:100%; height:auto; }
-.state { cursor:pointer; transition:fill .15s; }
-.state:hover { filter:brightness(1.2); }
+#map { width:100%; max-width:900px; margin:0 auto; display:block; }
+.state { cursor:pointer; stroke:#0f172a; stroke-width:0.5; }
+.state:hover { filter:brightness(1.15); }
 #popup { display:none; position:fixed; background:rgba(15,23,42,.95); padding:10px; border-radius:12px; z-index:100; min-width:200px; }
 body.light #popup { background:rgba(255,255,255,.97); }
 #popup .btn { display:block; width:100%; text-align:left; margin:4px 0; padding:8px; border-radius:8px; }
@@ -32,37 +32,7 @@ body.light #admin { background:#fff; }
   <h1>BGD — Mapa do Brasil</h1>
   <button id="darkBtn">Dark / Light</button>
 </header>
-<div id="map-wrap">
-  <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
-    <path class="state" data-name="AM" d="M120,180 L280,160 L300,320 L140,340 Z" fill="#16a34a"/>
-    <path class="state" data-name="PA" d="M280,140 L450,130 L460,280 L300,300 Z" fill="#15803d"/>
-    <path class="state" data-name="MT" d="M180,340 L320,330 L340,500 L160,510 Z" fill="#166534"/>
-    <path class="state" data-name="BA" d="M420,280 L560,270 L580,480 L430,490 Z" fill="#22c55e"/>
-    <path class="state" data-name="MG" d="M400,480 L520,470 L540,600 L390,610 Z" fill="#4ade80"/>
-    <path class="state" data-name="SP" d="M380,590 L480,580 L500,680 L370,690 Z" fill="#86efac"/>
-    <path class="state" data-name="RS" d="M300,680 L380,670 L400,760 L290,770 Z" fill="#bbf7d0"/>
-    <path class="state" data-name="RJ" d="M500,560 L560,555 L570,620 L495,625 Z" fill="#14532d"/>
-    <path class="state" data-name="PR" d="M340,650 L420,640 L440,700 L330,710 Z" fill="#22c55e"/>
-    <path class="state" data-name="SC" d="M320,690 L380,685 L390,730 L310,735 Z" fill="#16a34a"/>
-    <path class="state" data-name="GO" d="M340,450 L420,440 L440,540 L330,550 Z" fill="#15803d"/>
-    <path class="state" data-name="MS" d="M240,500 L340,490 L360,590 L230,600 Z" fill="#166534"/>
-    <path class="state" data-name="TO" d="M360,280 L420,270 L430,400 L350,410 Z" fill="#4ade80"/>
-    <path class="state" data-name="MA" d="M400,180 L480,170 L490,280 L390,290 Z" fill="#22c55e"/>
-    <path class="state" data-name="PI" d="M460,200 L520,195 L530,300 L450,305 Z" fill="#16a34a"/>
-    <path class="state" data-name="CE" d="M510,160 L560,155 L570,230 L500,235 Z" fill="#15803d"/>
-    <path class="state" data-name="PE" d="M520,240 L580,235 L590,300 L510,305 Z" fill="#166534"/>
-    <path class="state" data-name="AC" d="M60,300 L120,290 L140,360 L50,370 Z" fill="#86efac"/>
-    <path class="state" data-name="RO" d="M100,340 L160,330 L170,400 L90,410 Z" fill="#bbf7d0"/>
-    <path class="state" data-name="RR" d="M180,80 L240,70 L250,140 L170,150 Z" fill="#4ade80"/>
-    <path class="state" data-name="AP" d="M300,70 L360,60 L370,140 L290,150 Z" fill="#22c55e"/>
-    <path class="state" data-name="RN" d="M540,140 L580,135 L585,190 L535,195 Z" fill="#16a34a"/>
-    <path class="state" data-name="PB" d="M530,200 L570,195 L575,240 L525,245 Z" fill="#15803d"/>
-    <path class="state" data-name="AL" d="M540,260 L580,255 L585,300 L535,305 Z" fill="#166534"/>
-    <path class="state" data-name="SE" d="M530,300 L570,295 L575,340 L525,345 Z" fill="#14532d"/>
-    <path class="state" data-name="ES" d="M500,500 L540,495 L550,560 L490,565 Z" fill="#22c55e"/>
-    <path class="state" data-name="DF" d="M410,480 L430,475 L435,500 L405,505 Z" fill="#fbbf24"/>
-  </svg>
-</div>
+<svg id="map" viewBox="0 0 900 900"></svg>
 <div id="popup">
   <div id="popup-title" style="font-size:12px;opacity:.7;margin-bottom:6px"></div>
   <button class="btn" data-key="saude">Planos de Saúde</button>
@@ -79,17 +49,33 @@ body.light #admin { background:#fff; }
   <button id="closeAdmin">Fechar</button>
 </div>
 <script>
+const colors = ['#16a34a','#15803d','#166534','#22c55e','#4ade80','#86efac','#14532d','#bbf7d0'];
 const links = JSON.parse(localStorage.getItem('bgd-links')||'{}');
 const popup = document.getElementById('popup');
-document.querySelectorAll('.state').forEach(s => {
-  s.addEventListener('click', e => {
-    e.stopPropagation();
-    document.getElementById('popup-title').textContent = s.dataset.name;
-    popup.style.display = 'block';
-    popup.style.left = Math.min(e.clientX, innerWidth-220) + 'px';
-    popup.style.top = Math.min(e.clientY, innerHeight-140) + 'px';
+
+fetch('https://cdn.jsdelivr.net/gh/henriquemalvar/br-geojson@main/dist/estados.geojson')
+  .then(r => r.json())
+  .then(geo => {
+    const projection = d3.geoMercator().fitSize([860, 820], geo);
+    const path = d3.geoPath(projection);
+    const svg = d3.select('#map');
+    svg.selectAll('path')
+      .data(geo.features)
+      .enter()
+      .append('path')
+      .attr('d', path)
+      .attr('class', 'state')
+      .attr('data-name', d => d.properties.sigla)
+      .attr('fill', (d,i) => colors[i % colors.length])
+      .on('click', function(e, d) {
+        e.stopPropagation();
+        document.getElementById('popup-title').textContent = d.properties.sigla + ' — ' + d.properties.nome;
+        popup.style.display = 'block';
+        popup.style.left = Math.min(e.clientX, innerWidth-220) + 'px';
+        popup.style.top = Math.min(e.clientY, innerHeight-140) + 'px';
+      });
   });
-});
+
 document.addEventListener('click', e => { if (!popup.contains(e.target)) popup.style.display = 'none'; });
 document.querySelectorAll('#popup .btn').forEach(btn => {
   btn.addEventListener('click', () => {
