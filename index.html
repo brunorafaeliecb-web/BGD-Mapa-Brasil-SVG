@@ -3,30 +3,64 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BGD — Mapa 3D do Brasil</title>
+<title>BGD — Mapa do Brasil</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:#0f172a; color:#e2e8f0; font-family:system-ui,sans-serif; overflow:hidden; }
-  body.light { background:#f1f5f9; color:#0f172a; }
-  #info { position:absolute; top:16px; left:16px; z-index:10; }
-  h1 { font-size:1.2rem; margin-bottom:8px; }
+  body { background:#0f172a; color:#e2e8f0; font-family:system-ui,sans-serif; min-height:100vh; }
+  body.light { background:#f8fafc; color:#0f172a; }
+  header { padding:16px 20px; display:flex; justify-content:space-between; align-items:center; }
+  h1 { font-size:1.1rem; }
   button { background:#1e293b; color:#e2e8f0; border:none; padding:8px 14px; border-radius:999px; cursor:pointer; }
   body.light button { background:#e2e8f0; color:#0f172a; }
-  #popup { display:none; position:absolute; background:rgba(15,23,42,.95); padding:10px; border-radius:12px; z-index:20; min-width:200px; }
+  #map-container { position:relative; max-width:700px; margin:0 auto; padding:20px; }
+  #map-img { width:100%; height:auto; display:block; border-radius:8px; }
+  .state-area { position:absolute; cursor:pointer; background:transparent; border:2px solid transparent; border-radius:4px; }
+  .state-area:hover { background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.4); }
+  #popup { display:none; position:fixed; background:rgba(15,23,42,.95); padding:10px; border-radius:12px; z-index:100; min-width:200px; }
   body.light #popup { background:rgba(255,255,255,.97); }
   #popup .btn { display:block; width:100%; text-align:left; margin:4px 0; padding:8px; border-radius:8px; }
-  #lock { position:fixed; bottom:16px; right:16px; font-size:24px; cursor:pointer; z-index:30; }
-  #admin { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:#1e293b; padding:20px; border-radius:12px; z-index:40; }
+  #lock { position:fixed; bottom:16px; right:16px; font-size:22px; cursor:pointer; z-index:20; }
+  #admin { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:#1e293b; padding:20px; border-radius:12px; z-index:200; }
   body.light #admin { background:#fff; }
-  #admin input { width:100%; margin:6px 0; padding:6px; }
-  #sun { position:fixed; width:180px; height:180px; border-radius:50%; background:radial-gradient(circle, rgba(255,220,100,.3) 0%, transparent 70%); pointer-events:none; z-index:5; transform:translate(-50%,-50%); }
+  #admin input { width:100%; margin:6px 0; padding:6px; border-radius:6px; }
+  #sun { position:fixed; width:160px; height:160px; border-radius:50%; background:radial-gradient(circle, rgba(255,220,100,.35) 0%, transparent 70%); pointer-events:none; z-index:5; transform:translate(-50%,-50%); }
 </style>
 </head>
 <body>
 <div id="sun"></div>
-<div id="info">
-  <h1>BGD — Mapa 3D do Brasil</h1>
+<header>
+  <h1>BGD — Mapa do Brasil</h1>
   <button id="darkBtn">Dark / Light</button>
+</header>
+<div id="map-container">
+  <img id="map-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Brazil_states.svg/800px-Brazil_states.svg.png" alt="Mapa do Brasil">
+  <div class="state-area" data-name="AM" style="left:8%; top:18%; width:22%; height:28%;"></div>
+  <div class="state-area" data-name="PA" style="left:28%; top:12%; width:22%; height:22%;"></div>
+  <div class="state-area" data-name="MT" style="left:22%; top:38%; width:20%; height:22%;"></div>
+  <div class="state-area" data-name="BA" style="left:52%; top:32%; width:18%; height:28%;"></div>
+  <div class="state-area" data-name="MG" style="left:48%; top:48%; width:16%; height:20%;"></div>
+  <div class="state-area" data-name="SP" style="left:46%; top:62%; width:14%; height:16%;"></div>
+  <div class="state-area" data-name="RS" style="left:38%; top:82%; width:14%; height:14%;"></div>
+  <div class="state-area" data-name="RJ" style="left:56%; top:58%; width:8%; height:10%;"></div>
+  <div class="state-area" data-name="PR" style="left:42%; top:68%; width:12%; height:10%;"></div>
+  <div class="state-area" data-name="SC" style="left:40%; top:76%; width:10%; height:8%;"></div>
+  <div class="state-area" data-name="GO" style="left:40%; top:50%; width:12%; height:12%;"></div>
+  <div class="state-area" data-name="MS" style="left:30%; top:55%; width:12%; height:14%;"></div>
+  <div class="state-area" data-name="TO" style="left:42%; top:28%; width:10%; height:16%;"></div>
+  <div class="state-area" data-name="MA" style="left:48%; top:16%; width:12%; height:14%;"></div>
+  <div class="state-area" data-name="PI" style="left:55%; top:22%; width:10%; height:14%;"></div>
+  <div class="state-area" data-name="CE" style="left:62%; top:18%; width:8%; height:10%;"></div>
+  <div class="state-area" data-name="PE" style="left:64%; top:28%; width:10%; height:10%;"></div>
+  <div class="state-area" data-name="AC" style="left:4%; top:38%; width:10%; height:12%;"></div>
+  <div class="state-area" data-name="RO" style="left:12%; top:42%; width:10%; height:10%;"></div>
+  <div class="state-area" data-name="RR" style="left:18%; top:6%; width:8%; height:10%;"></div>
+  <div class="state-area" data-name="AP" style="left:32%; top:6%; width:8%; height:10%;"></div>
+  <div class="state-area" data-name="RN" style="left:68%; top:20%; width:6%; height:8%;"></div>
+  <div class="state-area" data-name="PB" style="left:66%; top:26%; width:6%; height:6%;"></div>
+  <div class="state-area" data-name="AL" style="left:66%; top:32%; width:6%; height:6%;"></div>
+  <div class="state-area" data-name="SE" style="left:64%; top:36%; width:6%; height:6%;"></div>
+  <div class="state-area" data-name="ES" style="left:58%; top:54%; width:6%; height:8%;"></div>
+  <div class="state-area" data-name="DF" style="left:48%; top:52%; width:4%; height:4%;"></div>
 </div>
 <div id="popup">
   <div id="popup-title" style="font-size:12px;opacity:.7;margin-bottom:6px"></div>
@@ -43,114 +77,47 @@
   <button id="saveLinks">Salvar</button>
   <button id="closeAdmin">Fechar</button>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 const links = JSON.parse(localStorage.getItem('bgd-links')||'{}');
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(50, innerWidth/innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
-renderer.setSize(innerWidth, innerHeight);
-document.body.appendChild(renderer.domElement);
-camera.position.set(0, 8, 18);
-camera.lookAt(0,0,0);
-const states = [
-  {name:'AC', x:-8, z:4, color:0x22c55e},
-  {name:'AM', x:-6, z:2, color:0x16a34a},
-  {name:'RR', x:-4, z:-1, color:0x15803d},
-  {name:'PA', x:-2, z:1, color:0x166534},
-  {name:'AP', x:0, z:-2, color:0x14532d},
-  {name:'RO', x:-7, z:5, color:0x4ade80},
-  {name:'MT', x:-3, z:6, color:0x86efac},
-  {name:'TO', x:1, z:4, color:0xbbf7d0},
-  {name:'MA', x:3, z:0, color:0x22c55e},
-  {name:'PI', x:4, z:2, color:0x16a34a},
-  {name:'CE', x:6, z:1, color:0x15803d},
-  {name:'RN', x:7, z:0, color:0x166534},
-  {name:'PB', x:7.5, z:1.5, color:0x14532d},
-  {name:'PE', x:6.5, z:3, color:0x4ade80},
-  {name:'AL', x:6, z:4.5, color:0x86efac},
-  {name:'SE', x:5.5, z:5.5, color:0xbbf7d0},
-  {name:'BA', x:4, z:6, color:0x22c55e},
-  {name:'MG', x:2, z:7, color:0x16a34a},
-  {name:'ES', x:3.5, z:8, color:0x15803d},
-  {name:'RJ', x:2.5, z:8.5, color:0x166534},
-  {name:'SP', x:1, z:8, color:0x14532d},
-  {name:'PR', x:-1, z:8.5, color:0x4ade80},
-  {name:'SC', x:-2, z:9, color:0x86efac},
-  {name:'RS', x:-3, z:10, color:0xbbf7d0},
-  {name:'MS', x:-2, z:6.5, color:0x22c55e},
-  {name:'GO', x:0, z:6, color:0x16a34a},
-  {name:'DF', x:0.5, z:6.5, color:0xfbbf24}
-];
-const meshes = [];
-states.forEach(s => {
-  const geo = new THREE.BoxGeometry(1.2, 0.4, 1.2);
-  const mat = new THREE.MeshStandardMaterial({color:s.color});
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.set(s.x, 0.2, s.z);
-  mesh.userData = s;
-  scene.add(mesh);
-  meshes.push(mesh);
-});
-const light = new THREE.DirectionalLight(0xffffff, 1);
-light.position.set(5,10,5);
-scene.add(light);
-scene.add(new THREE.AmbientLight(0x404040));
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
 const popup = document.getElementById('popup');
-renderer.domElement.addEventListener('click', e => {
-  mouse.x = (e.clientX / innerWidth)*2 -1;
-  mouse.y = -(e.clientY / innerHeight)*2 +1;
-  raycaster.setFromCamera(mouse, camera);
-  const hits = raycaster.intersectObjects(meshes);
-  if (hits.length) {
-    const s = hits[0].object.userData;
-    document.getElementById('popup-title').textContent = s.name;
+document.querySelectorAll('.state-area').forEach(area => {
+  area.addEventListener('click', e => {
+    e.stopPropagation();
+    document.getElementById('popup-title').textContent = area.dataset.name;
     popup.style.display = 'block';
     popup.style.left = Math.min(e.clientX, innerWidth-220) + 'px';
     popup.style.top = Math.min(e.clientY, innerHeight-140) + 'px';
-  } else popup.style.display = 'none';
+  });
 });
+document.addEventListener('click', e => { if (!popup.contains(e.target)) popup.style.display = 'none'; });
 document.querySelectorAll('#popup .btn').forEach(btn => {
-  btn.onclick = () => {
+  btn.addEventListener('click', () => {
     const url = links[btn.dataset.key];
     if (url) window.open(url);
-    else alert('Link não definido');
+    else alert('Link não definido no admin');
     popup.style.display = 'none';
-  };
+  });
 });
-document.getElementById('darkBtn').onclick = () => document.body.classList.toggle('light');
+document.getElementById('darkBtn').addEventListener('click', () => document.body.classList.toggle('light'));
 document.addEventListener('mousemove', e => {
   document.getElementById('sun').style.left = e.clientX + 'px';
   document.getElementById('sun').style.top = e.clientY + 'px';
 });
 const admin = document.getElementById('admin');
-document.getElementById('lock').onclick = () => {
+document.getElementById('lock').addEventListener('click', () => {
   document.getElementById('link-saude').value = links.saude||'';
   document.getElementById('link-eletronica').value = links.eletronica||'';
   document.getElementById('link-ti').value = links.ti||'';
   admin.style.display = 'block';
-};
-document.getElementById('closeAdmin').onclick = () => admin.style.display = 'none';
-document.getElementById('saveLinks').onclick = () => {
+});
+document.getElementById('closeAdmin').addEventListener('click', () => admin.style.display = 'none');
+document.getElementById('saveLinks').addEventListener('click', () => {
   links.saude = document.getElementById('link-saude').value;
   links.eletronica = document.getElementById('link-eletronica').value;
   links.ti = document.getElementById('link-ti').value;
   localStorage.setItem('bgd-links', JSON.stringify(links));
-  alert('Salvo');
+  alert('Salvo!');
   admin.style.display = 'none';
-};
-function animate() {
-  requestAnimationFrame(animate);
-  scene.rotation.y += 0.002;
-  renderer.render(scene, camera);
-}
-animate();
-window.addEventListener('resize', () => {
-  camera.aspect = innerWidth/innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth, innerHeight);
 });
 </script>
 </body>
