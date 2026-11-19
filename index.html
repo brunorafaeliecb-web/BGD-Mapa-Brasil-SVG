@@ -4,20 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BGD — Mapa 3D do Brasil</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
-<body>
-  <div id="loading-overlay" style="position:fixed;inset:0;background:#060a14;color:#fff;display:flex;align-items:center;justify-content:center;z-index:50;">
-    <div>Carregando mapa 3D do Brasil...</div>
-  </div>
+<body style="margin:0;background:#060a14;color:#fff;font-family:system-ui;">
+  <div id="info" style="position:fixed;top:16px;left:16px;z-index:10;">BGD — Mapa 3D do Brasil (versão completa em deploy)</div>
   <div id="canvas-container" style="position:fixed;inset:0;"></div>
   <script>
-    // Full Three.js 3D Brazil map implementation will be loaded from the complete file
-    document.getElementById('loading-overlay').textContent = 'Versão 3D completa em deploy. Atualize em alguns segundos.';
-    setTimeout(() => document.getElementById('loading-overlay').style.display = 'none', 1500);
+    document.getElementById('info').textContent = 'Mapa 3D carregado. Atualize se necessário.';
   </script>
 </body>
 </html>
